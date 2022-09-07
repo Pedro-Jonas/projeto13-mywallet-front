@@ -1,23 +1,23 @@
 import styled from "styled-components";
-import FormSignin from "./FormSign-in";
+import FormSignup from "./FormSign-up";
 
-export default function Signin(){
+export default function Signup(){
     return(
-    <LoginStyles>
+    <SignupStyles>
         <div className="Logo">
             MyWallet
         </div>
-        <FormSignin/>
-    </LoginStyles>
+        <FormSignup/>
+    </SignupStyles>
     );
 };
 
-const LoginStyles = styled.div`
+const SignupStyles = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
 .Logo{
-    margin-top: 159px;
+    margin-top: 95px;
     margin-bottom: 24px;
     font-family: 'Saira Stencil One', cursive;
     font-weight: 400;

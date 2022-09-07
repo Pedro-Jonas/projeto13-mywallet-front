@@ -3,7 +3,7 @@ import ContextLogin from "../../Contexts/ContextLogin";
 import { Link } from "react-router-dom";
 import StyledForm from "../../Styleds/StyledForm";
 
-export default function FormLogin(){
+export default function FormSignin(){
     const {email, setEmail} = useContext(ContextLogin);
     const {password, setPassword} = useContext(ContextLogin);
     const {setToken} = useContext(ContextLogin);
@@ -63,5 +63,4 @@ export default function FormLogin(){
 	</form>
     </StyledForm>
     );
-
-}
+};
