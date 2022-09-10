@@ -6,6 +6,8 @@ import ContextLogin from "../Contexts/ContextLogin";
 import Signin from "./Sign-in/Sign-in";
 import Signup from "./Sign-up/Sign-up";
 import Home from "./Home.js/Home";
+import Entrance from "./Entance/Entrance";
+import Exit from "./Exit/Exit";
 
 export default function App(){
     const [email, setEmail] = useState("");
@@ -23,6 +25,8 @@ export default function App(){
                 <Route path="/" element={<Signin/>}/> 
                 <Route path="/Sign-up" element={<Signup/>}/> 
                 <Route path="/Home" element={<Home/>}/> 
+                <Route path="/Entrance" element={<Entrance/>}/> 
+                <Route path="/Exit" element={<Exit/>}/> 
             </Routes>
         </BrowserRouter>
     </ContextLogin.Provider>

@@ -1,13 +1,61 @@
 import { useContext } from "react";
 import ContextLogin from "../../Contexts/ContextLogin";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import StyledHome from "../../Styleds/StyledHome"
 import {BiExit} from "react-icons/bi"
 import {CgAdd} from "react-icons/cg"
 import {CgRemove} from "react-icons/cg"
 
+
 export default function Home(){
     const {name} = useContext(ContextLogin);
     console.log(name);
+
+    /*  Fazer um get para pegar a lista de usuario*/
+    let verif = [{value:"98,90" , type: "Entrance", decription: "salário", _Id: "7267764", date: "26/09"}, 
+    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "726777664", date: "29/09"},
+    {value:"98,90" , type: "Entrance", decription: "salário", _Id: "726776764", date: "26/09"},
+    {value:"98,90" , type: "Entrance", decription: "salário", _Id: "726776564", date: "26/09"}, 
+    {value:"98,90" , type: "Entrance", decription: "salário", _Id: "7264227764", date: "26/09"},
+    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "72677127664", date: "29/09"},
+    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "726709177664", date: "29/09"},
+    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "726712377664", date: "29/09"},
+    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "7267112477664", date: "29/09"},
+    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "726764277664", date: "29/09"},
+    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "71267776644", date: "29/09"},
+    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "72617776664", date: "29/09"}
+    ];
+    
+    const totalEntrances = verif.filter((element)=>{
+        return element.type === "Entrance"
+    })
+
+    const totalExits = verif.filter((element)=>{
+        return element.type === "Exit"
+    })
+
+    function sum(array){
+        let acum = 0;
+        array.forEach(element => {
+            let newvalue = element.value.toString().replace(",", ".")
+            acum += parseFloat(newvalue);
+        });
+        return acum;
+    };
+
+    const balance = (sum(totalEntrances) - sum(totalExits)).toFixed(2);
+
+    const navigate = useNavigate();
+
+    function NewEntrance(){
+        navigate("/Entrance");
+    };
+
+    function NewExit(){
+        navigate("/Exit");
+    };
+    /*<p>Não há registros de</p>
+    <p>entrada ou saída</p>*/
     const nome = "Jonas"
     return(
     <StyledHome>
@@ -15,19 +63,65 @@ export default function Home(){
             olá, {nome}
             <BiExit/>
         </div>
+        {verif?
+        (<div className="recordsvalid ">
+        <div className="Allregisters">
+            {verif.map((register)=>{
+            const type = register.type;
+            return(
+            (type === "Entrance")?
+            (<div key={register._Id} className="register entrance">
+                <div className="descripition">
+                    <p>{register.date}</p>
+                    <h1>{register.decription}</h1>
+                </div>
+                <div>
+                    <h2>{register.value}</h2>
+                </div>
+            </div>) : 
+            (<div key={register._Id} className="register exit">
+                <div className="descripition">
+                    <p>{register.date}</p>
+                    <h1>{register.decription}</h1>
+                </div>
+                <div>
+                    <h2>{register.value}</h2>
+                </div>
+            </div>)
+        );
+        })}
+        </div>
+            <div className="balance">
+                <div>
+                    Saldo
+                </div>
+                {balance >= 0?
+                (<div className="positive"> 
+                    {balance.toString().replace(".",",")}
+                </div>
+                )
+                :
+                (<div className="negative">
+                    {balance.toString().replace(".",",")}
+                </div>
+                )}
+            </div>
+        </div>)
+        :(
         <div className="records">
             <p>Não há registros de</p>
             <p>entrada ou saída</p>
         </div>
+        )}
         <div className="options">
-            <div className="option">
+            <div className="option" onClick={()=> NewEntrance()}>
                 <CgAdd className="icon"/>
                 <div>
                     <p>Nova</p>
                     <p>entrada</p>
                 </div>
             </div>
-            <div className="option">
+            <div className="option" onClick={()=> NewExit()}>
                 <CgRemove/>
                 <div>
                     <p>Nova</p>
@@ -38,55 +132,3 @@ export default function Home(){
     </StyledHome>
     );
 };
-
-const StyledHome = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-.icon{
-    font-size: 19px;
-}
-.header {
-    display: flex;
-    justify-content: space-between;
-    width: 326px;
-    padding: 25px 24px 22px 24px;
-    font-weight: 700;
-    font-size: 26px;
-    line-height: 31px;
-    color: #ffffff;
-};
-.records {
-    background-color: #FFFFFF;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    width: 326px;
-    height: 446px;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    color: #868686;
-};
-.options{
-    display: flex;
-    gap: 15px;
-    margin-top: 13px;
-};
-.option{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px 0 10px 5px;
-    background-color: #A328D6;
-    width: 155px;
-    height: 114px;
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: 17px;
-    line-height: 20px;
-};
-
-`;
