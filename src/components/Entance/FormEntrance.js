@@ -19,13 +19,21 @@ export default function FormEntrance(){
     }; 
     */
     function submit(){
-        const verf = parseFloat(value);
+        const verfstr = value.toString().includes(',');
+        let newvalue = value;
+        if (verfstr){
+            newvalue = value.replace(',' , '.');
+        };
+        let verf = parseFloat(newvalue).toFixed(2);
+
         if (!isNaN(verf)  && description !== ""){
+            verf = verf.toString().replace("." , ",");
             const exit = {
                 value: verf,
-                description
+                description,
+                type: "Entrance"
             }
-            console.log(exit);
+            alert(`${verf} ${verfstr} ${exit}` )
         }
     };
         /*

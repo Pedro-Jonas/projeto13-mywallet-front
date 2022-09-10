@@ -1,44 +1,43 @@
 import { useContext } from "react";
 import ContextLogin from "../../Contexts/ContextLogin";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import StyledForm from "../../Styleds/StyledForm";
 
 export default function FormSignin(){
     const {email, setEmail} = useContext(ContextLogin);
     const {password, setPassword} = useContext(ContextLogin);
     const {setToken} = useContext(ContextLogin);
-
+    const  navigate = useNavigate();
 
     function handleForm(e){
         e.preventDefault();
     };
-    /*
+
     function sucess(resposta){
         setToken(resposta.data.token);
-        navigate("/hoje")
+        navigate("/Home")
     };
 
     function error(){
-        alert("Email ou senha inválida");
+        alert("Por favor preencha os campos novamente");
     }; 
-    */
+
     function submit(){
-        console.log(email, password);
         if (email !== ""  && password !== ""){
             const login = {
-                email: email,
-	            password: password,
-            }
-            console.log(login, setToken)
-        }
-    };
-        /*
-            console.log(login);
-            const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", login);
+                email,
+	            password
+            };
+            const request = axios.post("http://localhost:5000/sign-in", login);
             request.then((resposta)=> sucess(resposta))
             request.catch(()=> error())
-        }
-    }*/
+        } else {
+            alert("Por favor preencha os campos novamente");
+        };
+    };
+
     return (
     <StyledForm>
     <form onSubmit={handleForm}>

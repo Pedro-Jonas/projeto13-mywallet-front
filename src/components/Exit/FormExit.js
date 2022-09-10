@@ -30,7 +30,8 @@ export default function FormExit(){
             verf = verf.toString().replace("." , ",");
             const exit = {
                 value: verf,
-                description
+                description,
+                type: "Exit"
             }
             alert(`${verf} ${verfstr} ${exit}` )
         }

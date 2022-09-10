@@ -9,7 +9,9 @@ import {CgRemove} from "react-icons/cg"
 
 export default function Home(){
     const {name} = useContext(ContextLogin);
-    console.log(name);
+    const {token} = useContext(ContextLogin);
+    console.log(name, token)
+    const navigate = useNavigate();
 
     /*  Fazer um get para pegar a lista de usuario*/
     let verif = [{value:"98,90" , type: "Entrance", decription: "salário", _Id: "7267764", date: "26/09"}, 
@@ -45,14 +47,16 @@ export default function Home(){
 
     const balance = (sum(totalEntrances) - sum(totalExits)).toFixed(2);
 
-    const navigate = useNavigate();
-
     function NewEntrance(){
         navigate("/Entrance");
     };
 
     function NewExit(){
         navigate("/Exit");
+    };
+
+    function comeBack(){
+        navigate("/");
     };
     /*<p>Não há registros de</p>
     <p>entrada ou saída</p>*/
@@ -61,7 +65,7 @@ export default function Home(){
     <StyledHome>
         <div className="header">
             olá, {nome}
-            <BiExit/>
+            <BiExit onClick={()=> comeBack()}/>
         </div>
         {verif?
         (<div className="recordsvalid ">
