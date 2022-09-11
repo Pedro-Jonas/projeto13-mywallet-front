@@ -23,7 +23,7 @@ export default function FormSignup(){
     }
 
     function error(){
-        alert("Por favor preencha os campos novamente");
+        alert("Email já ultilizado, Por favor preencha os campos novamente");
     }
 
     function submit(){

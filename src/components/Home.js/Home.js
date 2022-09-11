@@ -1,17 +1,36 @@
 import { useContext } from "react";
 import ContextLogin from "../../Contexts/ContextLogin";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 import StyledHome from "../../Styleds/StyledHome"
 import {BiExit} from "react-icons/bi"
 import {CgAdd} from "react-icons/cg"
 import {CgRemove} from "react-icons/cg"
 
 
+
 export default function Home(){
     const {name} = useContext(ContextLogin);
+    const {token} = useContext(ContextLogin);
+    const [verif, setVerif] = useState([]);
     const navigate = useNavigate();
 
-    /*  Fazer um get para pegar a lista de usuario*/
+    useEffect(()=> {
+        const request = axios.get("http://localhost:5000/registers", {
+        headers: {
+            'Authorization': `Bearer ${token}` 
+        }
+        });
+        request.then((res) => {
+            setVerif(res.data);
+        });
+        request.catch((error) => {
+            console.error(error)
+        });
+    }, [token]);
+    
+    /*  
     let verif = [{value:"98,90" , type: "Entrance", decription: "salário", _Id: "7267764", date: "26/09"}, 
     {value: "122,67" , type: "Exit", decription: "almoço", _Id: "726777664", date: "29/09"},
     {value:"98,90" , type: "Entrance", decription: "salário", _Id: "726776764", date: "26/09"},
@@ -25,7 +44,7 @@ export default function Home(){
     {value: "122,67" , type: "Exit", decription: "almoço", _Id: "71267776644", date: "29/09"},
     {value: "122,67" , type: "Exit", decription: "almoço", _Id: "72617776664", date: "29/09"}
     ];
-    
+    */
     const totalEntrances = verif.filter((element)=>{
         return element.type === "Entrance"
     })
@@ -56,14 +75,14 @@ export default function Home(){
     function comeBack(){
         navigate("/");
     };
-   
+    
     return(
     <StyledHome>
         <div className="header">
             olá, {name}
             <BiExit onClick={()=> comeBack()}/>
         </div>
-        {verif?
+        {(verif.length > 0)?
         (<div className="recordsvalid ">
         <div className="Allregisters">
             {verif.map((register)=>{
@@ -73,7 +92,7 @@ export default function Home(){
             (<div key={register._Id} className="register entrance">
                 <div className="descripition">
                     <p>{register.date}</p>
-                    <h1>{register.decription}</h1>
+                    <h1>{register.description}</h1>
                 </div>
                 <div>
                     <h2>{register.value}</h2>
@@ -82,7 +101,7 @@ export default function Home(){
             (<div key={register._Id} className="register exit">
                 <div className="descripition">
                     <p>{register.date}</p>
-                    <h1>{register.decription}</h1>
+                    <h1>{register.description}</h1>
                 </div>
                 <div>
                     <h2>{register.value}</h2>

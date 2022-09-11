@@ -47,7 +47,9 @@ export default function FormExit(){
             });
             request.then(()=> sucess());
             request.catch(()=> error());
-        }
+        } else {
+            alert("Por favor verique os campos novamente")
+        };
     };
 
     return (
