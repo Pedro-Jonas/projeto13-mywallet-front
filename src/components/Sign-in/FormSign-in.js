@@ -9,6 +9,7 @@ export default function FormSignin(){
     const {email, setEmail} = useContext(ContextLogin);
     const {password, setPassword} = useContext(ContextLogin);
     const {setToken} = useContext(ContextLogin);
+    const {setName} = useContext(ContextLogin);
     const  navigate = useNavigate();
 
     function handleForm(e){
@@ -16,7 +17,9 @@ export default function FormSignin(){
     };
 
     function sucess(resposta){
+        console.log(resposta.data)
         setToken(resposta.data.token);
+        setName(resposta.data.name);
         navigate("/Home")
     };
 

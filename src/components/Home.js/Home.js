@@ -9,8 +9,6 @@ import {CgRemove} from "react-icons/cg"
 
 export default function Home(){
     const {name} = useContext(ContextLogin);
-    const {token} = useContext(ContextLogin);
-    console.log(name, token)
     const navigate = useNavigate();
 
     /*  Fazer um get para pegar a lista de usuario*/
@@ -58,13 +56,11 @@ export default function Home(){
     function comeBack(){
         navigate("/");
     };
-    /*<p>Não há registros de</p>
-    <p>entrada ou saída</p>*/
-    const nome = "Jonas"
+   
     return(
     <StyledHome>
         <div className="header">
-            olá, {nome}
+            olá, {name}
             <BiExit onClick={()=> comeBack()}/>
         </div>
         {verif?

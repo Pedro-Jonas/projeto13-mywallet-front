@@ -1,23 +1,30 @@
 import { useState } from "react";
 import StyledAdd from "../../Styleds/StyledAdd";
+import { useContext } from "react";
+import ContextLogin from "../../Contexts/ContextLogin";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
 
 export default function FormExit(){
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
+    const {token} = useContext(ContextLogin);
+    const  navigate = useNavigate();
 
     function handleForm(e){
         e.preventDefault();
     };
-    /*
-    function sucess(resposta){
-        setToken(resposta.data.token);
-        navigate("/hoje")
+
+    function sucess(){
+        alert("Registro cadastrado com sucesso")
+        navigate("/Home")
     };
 
     function error(){
-        alert("Valor ou descrição inválida");
+        alert("Por favor verique os campos novamente");
     }; 
-    */
+
     function submit(){
         const verfstr = value.toString().includes(',');
         let newvalue = value;
@@ -33,15 +40,16 @@ export default function FormExit(){
                 description,
                 type: "Exit"
             }
-            alert(`${verf} ${verfstr} ${exit}` )
+            const request = axios.post("http://localhost:5000/registers", exit, {
+                headers: {
+                  'Authorization': `Bearer ${token}` 
+                }
+            });
+            request.then(()=> sucess());
+            request.catch(()=> error());
         }
     };
-        /*
-            const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", login);
-            request.then((resposta)=> sucess(resposta))
-            request.catch(()=> error())
-        }
-    }*/
+
     return (
     <StyledAdd>
     <form onSubmit={handleForm}>
