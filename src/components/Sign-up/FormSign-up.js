@@ -9,22 +9,22 @@ import axios from 'axios';
 export default function FormSignup(){
     const {email, setEmail} = useContext(ContextLogin);
     const {password, setPassword} = useContext(ContextLogin);
-    const {name, setName} = useContext(ContextLogin);
+    const [name, setName] = useState("");
     const [confirmation, setConfirmation] = useState("");
     const navigate = useNavigate();
 
     function handleForm(e){
         e.preventDefault();
-    }
+    };
 
     function sucess(){
         alert("Cadastro realizado com sucesso, vá para tela de login para iniciar");
-        navigate("/")
-    }
+        navigate("/");
+    };
 
     function error(){
         alert("Email já ultilizado, Por favor preencha os campos novamente");
-    }
+    };
 
     function submit(){
         if (email !== ""  && password !== "" && name !== "" && password === confirmation ){
@@ -39,7 +39,7 @@ export default function FormSignup(){
         } else {
             alert("Por favor preencha os campos novamente");
         };
-    }
+    };
 
     return(
         <StyledForm>

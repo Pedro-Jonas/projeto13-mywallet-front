@@ -1,21 +1,16 @@
-import { useContext } from "react";
-import ContextLogin from "../../Contexts/ContextLogin";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import StyledHome from "../../Styleds/StyledHome"
-import {BiExit} from "react-icons/bi"
-import {CgAdd} from "react-icons/cg"
-import {CgRemove} from "react-icons/cg"
-
-
+import StyledHome from "../../Styleds/StyledHome";
+import {BiExit} from "react-icons/bi";
+import {CgAdd} from "react-icons/cg";
+import {CgRemove} from "react-icons/cg";
 
 export default function Home(){
-    const {name} = useContext(ContextLogin);
-    const {token} = useContext(ContextLogin);
     const [verif, setVerif] = useState([]);
     const navigate = useNavigate();
-
+    const token = localStorage.getItem("token");
+    const name = localStorage.getItem("name");
     useEffect(()=> {
         const request = axios.get("http://localhost:5000/registers", {
         headers: {
@@ -30,28 +25,13 @@ export default function Home(){
         });
     }, [token]);
     
-    /*  
-    let verif = [{value:"98,90" , type: "Entrance", decription: "salário", _Id: "7267764", date: "26/09"}, 
-    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "726777664", date: "29/09"},
-    {value:"98,90" , type: "Entrance", decription: "salário", _Id: "726776764", date: "26/09"},
-    {value:"98,90" , type: "Entrance", decription: "salário", _Id: "726776564", date: "26/09"}, 
-    {value:"98,90" , type: "Entrance", decription: "salário", _Id: "7264227764", date: "26/09"},
-    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "72677127664", date: "29/09"},
-    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "726709177664", date: "29/09"},
-    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "726712377664", date: "29/09"},
-    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "7267112477664", date: "29/09"},
-    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "726764277664", date: "29/09"},
-    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "71267776644", date: "29/09"},
-    {value: "122,67" , type: "Exit", decription: "almoço", _Id: "72617776664", date: "29/09"}
-    ];
-    */
     const totalEntrances = verif.filter((element)=>{
         return element.type === "Entrance"
-    })
+    });
 
     const totalExits = verif.filter((element)=>{
         return element.type === "Exit"
-    })
+    });
 
     function sum(array){
         let acum = 0;
@@ -85,11 +65,11 @@ export default function Home(){
         {(verif.length > 0)?
         (<div className="recordsvalid ">
         <div className="Allregisters">
-            {verif.map((register)=>{
+            {verif.map((register, index)=>{
             const type = register.type;
             return(
             (type === "Entrance")?
-            (<div key={register._Id} className="register entrance">
+            (<div key={index} className="register entrance">
                 <div className="descripition">
                     <p>{register.date}</p>
                     <h1>{register.description}</h1>
@@ -98,7 +78,7 @@ export default function Home(){
                     <h2>{register.value}</h2>
                 </div>
             </div>) : 
-            (<div key={register._Id} className="register exit">
+            (<div key={index} className="register exit">
                 <div className="descripition">
                     <p>{register.date}</p>
                     <h1>{register.description}</h1>

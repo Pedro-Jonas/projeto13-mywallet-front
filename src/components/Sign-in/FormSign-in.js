@@ -8,19 +8,16 @@ import StyledForm from "../../Styleds/StyledForm";
 export default function FormSignin(){
     const {email, setEmail} = useContext(ContextLogin);
     const {password, setPassword} = useContext(ContextLogin);
-    const {setToken} = useContext(ContextLogin);
-    const {setName} = useContext(ContextLogin);
     const  navigate = useNavigate();
 
     function handleForm(e){
         e.preventDefault();
     };
 
-    function sucess(resposta){
-        console.log(resposta.data)
-        setToken(resposta.data.token);
-        setName(resposta.data.name);
-        navigate("/Home")
+    function sucess(res){
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("name", res.data.name);
+        navigate("/Home");
     };
 
     function error(){
@@ -34,8 +31,8 @@ export default function FormSignin(){
 	            password
             };
             const request = axios.post("http://localhost:5000/sign-in", login);
-            request.then((resposta)=> sucess(resposta))
-            request.catch(()=> error())
+            request.then((res)=> sucess(res));
+            request.catch(()=> error());
         } else {
             alert("Por favor preencha os campos novamente");
         };

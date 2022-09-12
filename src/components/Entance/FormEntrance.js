@@ -1,14 +1,12 @@
 import { useState } from "react";
 import StyledAdd from "../../Styleds/StyledAdd";
-import { useContext } from "react";
-import ContextLogin from "../../Contexts/ContextLogin";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 export default function FormEntrance(){
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
-    const {token} = useContext(ContextLogin);
+    const token = localStorage.getItem("token");
     const  navigate = useNavigate();
 
     function handleForm(e){
@@ -16,8 +14,8 @@ export default function FormEntrance(){
     };
 
     function sucess(){
-        alert("Registro cadastrado com sucesso")
-        navigate("/Home")
+        alert("Registro cadastrado com sucesso");
+        navigate("/Home");
     };
 
     function error(){
@@ -38,7 +36,7 @@ export default function FormEntrance(){
                 value: verf,
                 description,
                 type: "Entrance"
-            }
+            };
             const request = axios.post("http://localhost:5000/registers", exit, {
                 headers: {
                   'Authorization': `Bearer ${token}` 
