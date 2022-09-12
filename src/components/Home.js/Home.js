@@ -53,6 +53,7 @@ export default function Home(){
     };
 
     function comeBack(){
+        localStorage.clear();
         navigate("/");
     };
     
